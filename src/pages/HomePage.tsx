@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { DUMMY_VIDEO } from './data';
 import GridVideo from '../styles/Grid.styles';
 import VideoBlock, { VideoTypes } from '../components/VideoBlock';
+import { Link } from 'react-router-dom';
 
 export const StyledHome = styled.div`
   padding: 1.3rem;
@@ -46,7 +47,9 @@ const HomePage: React.FC = () => {
       <h2>Recommended</h2>
       <GridVideo>
         {DUMMY_VIDEO.map((video: VideoTypes) => (
-          <VideoBlock video={video} />
+          <Link key={video.id} to={`watch/${video.id}`}>
+            <VideoBlock video={video} />
+          </Link>
         ))}
       </GridVideo>
     </StyledHome>

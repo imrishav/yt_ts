@@ -14,6 +14,7 @@ import Sidebar from './components/Sidebar';
 
 import HomePage from './pages/HomePage';
 import Trending from './pages/Trending';
+import VideoView from './pages/VideoView';
 
 interface AppProps {
   profile: ProfileDetails;
@@ -34,6 +35,7 @@ const App: React.FC<AppProps> = ({ fetchData, profile }) => {
         <Container>
           <Route path="/" exact component={HomePage} />
           <Route path="/trending" exact component={Trending} />
+          <Route path="/watch/:id" component={VideoView} />
         </Container>
       </Router>
     </ThemeProvider>

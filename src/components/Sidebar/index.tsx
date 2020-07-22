@@ -79,7 +79,7 @@ interface SideBarProps {
 
 const Sidebar: React.FC<SideBarProps> = ({ sidebar, open, closeSidebar }) => {
   return (
-    <SidebarWrapper open={sidebar}>
+    <SidebarWrapper open={false}>
       <NavLink
         // onClick={() => closeSidebar()}
         exact
