@@ -11,7 +11,7 @@ export interface ProfileDetails {
 }
 
 //Optional for Dispatch
-export interface ProfileDetailsAction {
+export interface s {
   type: ActionTypes.FETCH_DATA;
   payload: ProfileDetails;
 }
@@ -22,7 +22,7 @@ export const fetchData = () => {
       'https://api.github.com/users/imrishav'
     );
 
-    dispatch<ProfileDetailsAction>({
+    dispatch<s>({
       type: ActionTypes.FETCH_DATA,
       payload: res.data,
     });

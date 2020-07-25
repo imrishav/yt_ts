@@ -10,18 +10,14 @@ import GlobalStyle from './styles/Global.styles';
 import { darkTheme } from './styles/Theme.styles';
 
 import Header from './components/Header';
+import Login from './components/Auth/Login.component';
 import Sidebar from './components/Sidebar';
 
 import HomePage from './pages/HomePage';
 import Trending from './pages/Trending';
 import VideoView from './pages/VideoView';
 
-interface AppProps {
-  profile: ProfileDetails;
-  fetchData(): any;
-}
-
-const App: React.FC<AppProps> = ({ fetchData, profile }) => {
+const App: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
@@ -29,7 +25,7 @@ const App: React.FC<AppProps> = ({ fetchData, profile }) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyle />
-      <Router>
+      {/* <Router>
         <Header />
         <Sidebar />
         <Container>
@@ -37,7 +33,8 @@ const App: React.FC<AppProps> = ({ fetchData, profile }) => {
           <Route path="/trending" exact component={Trending} />
           <Route path="/watch/:id" component={VideoView} />
         </Container>
-      </Router>
+      </Router> */}
+      <Login />
     </ThemeProvider>
   );
 };
@@ -48,4 +45,4 @@ const mapStateToProps = ({ profile }: StoreState) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchData })(App);
+export default connect(null, null)(App);

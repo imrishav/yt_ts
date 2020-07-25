@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { profileReducer } from './profile';
+import { profileReducer, ProfileDet, LoginAction } from './profile';
 import { ProfileDetails } from '../actions';
 
 import { ToggleActionDetails } from '../components/Sidebar/actions';
@@ -7,7 +7,7 @@ import { ToggleActionDetails } from '../components/Sidebar/actions';
 import { sideBarReduer } from './sidebar.reducer';
 
 export interface StoreState {
-  profile: ProfileDetails;
+  profile: ProfileDet;
   sideBar: ToggleActionDetails;
 }
 

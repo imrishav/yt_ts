@@ -1,20 +1,36 @@
-import { ProfileDetails, ProfileDetailsAction } from '../actions';
 import { ActionTypes } from '../actions/types';
+import { ProfileDetailsAction, LoginPayload } from '../actions/authActions';
 
-const initalState: ProfileDetails = {
-  id: 0,
-  login: '',
-  html_url: '',
-  public_repos: 0,
-  name: '',
+export interface ProfileDet {
+  id: string;
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+  avatar: string;
+  cover: string;
+  channelDesc: string;
+}
+
+const initalState: ProfileDet = {
+  id: '',
+  firstname: '',
+  lastname: '',
+  username: '',
+  email: '',
+  avatar: '',
+  cover: '',
+  channelDesc: '',
 };
 
+export type LoginAction = { type: ActionTypes.LOGIN; payload: ProfileDet };
+
 export const profileReducer = (
-  state: ProfileDetails = initalState,
-  action: ProfileDetailsAction
+  state: ProfileDet = initalState,
+  action: LoginAction
 ) => {
   switch (action.type) {
-    case ActionTypes.FETCH_DATA:
+    case ActionTypes.LOGIN:
       return action.payload;
     default:
       return state;
