@@ -6,14 +6,18 @@ import { StyledAuth } from '../../styles/Auth.styles';
 import useInputField from '../../utils/hooks/useInputField';
 import { ProfileDet } from '../../reducers/profile';
 import { LoginPayload, loginUser } from '../../actions/authActions';
-import Axios from 'axios';
 
 interface LoginComponentProps {
   profile: ProfileDet;
+  error?: string;
   loginUser?: (payload: LoginPayload) => void;
 }
 
-const Login: React.FC<LoginComponentProps> = ({ profile, loginUser }) => {
+const Login: React.FC<LoginComponentProps> = ({
+  profile,
+  loginUser,
+  error,
+}) => {
   const email = useInputField('');
   const password = useInputField('');
 
@@ -26,13 +30,9 @@ const Login: React.FC<LoginComponentProps> = ({ profile, loginUser }) => {
     };
 
     loginUser!(payload);
-
-    // console.log({ email, password });
   };
-
-  console.log('profile', profile);
   return (
-    <StyledAuth>
+    <div>
       <h2>Login to your account</h2>
       <form onSubmit={handleLogin}>
         <input
@@ -54,13 +54,15 @@ const Login: React.FC<LoginComponentProps> = ({ profile, loginUser }) => {
           <button>Login</button>
         </div>
       </form>
-    </StyledAuth>
+      {error && <p>{error}</p>}
+    </div>
   );
 };
 
 const mapStateToProps = (state: StoreState) => {
   return {
     profile: state.profile,
+    error: state.profile.error,
   };
 };
 

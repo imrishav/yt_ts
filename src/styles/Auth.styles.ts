@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledAuth = styled.div`
-  width: 385px;
+  width: 800px;
   padding: 3rem 1.5rem;
   background: ${(props) => props.theme.grey};
   border-radius: 4px;

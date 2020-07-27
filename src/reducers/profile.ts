@@ -2,28 +2,16 @@ import { ActionTypes } from '../actions/types';
 import { ProfileDetailsAction, LoginPayload } from '../actions/authActions';
 
 export interface ProfileDet {
-  id: string;
-  firstname: string;
-  lastname: string;
-  username: string;
-  email: string;
-  avatar: string;
-  cover: string;
-  channelDesc: string;
+  user: string | undefined;
+  error?: '' | undefined;
 }
 
 const initalState: ProfileDet = {
-  id: '',
-  firstname: '',
-  lastname: '',
-  username: '',
-  email: '',
-  avatar: '',
-  cover: '',
-  channelDesc: '',
+  user: '',
+  error: undefined,
 };
 
-export type LoginAction = { type: ActionTypes.LOGIN; payload: ProfileDet };
+export type LoginAction = { type: ActionTypes; payload: any };
 
 export const profileReducer = (
   state: ProfileDet = initalState,
@@ -31,7 +19,20 @@ export const profileReducer = (
 ) => {
   switch (action.type) {
     case ActionTypes.LOGIN:
-      return action.payload;
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case ActionTypes.SIGN_UP:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case ActionTypes.AUTHENTICATION_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+      };
     default:
       return state;
   }

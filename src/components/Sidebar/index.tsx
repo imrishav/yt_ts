@@ -83,7 +83,7 @@ const Sidebar: React.FC<SideBarProps> = ({ sidebar, open, closeSidebar }) => {
       <NavLink
         // onClick={() => closeSidebar()}
         exact
-        to="/"
+        to="/home"
         activeClassName="active"
       >
         <div className="icon">
