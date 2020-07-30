@@ -47,6 +47,11 @@ const Header: React.FC<HeaderProps> = ({ sidebar, toggleSidebar }) => {
             <Avatar className="pointer" src={user.avatar} alt="user-avatar" />
           </Link> */}
         </li>
+        <li>
+          <button onClick={() => localStorage.removeItem('user')}>
+            Logout
+          </button>
+        </li>
       </ul>
     </HeaderWrapper>
   );

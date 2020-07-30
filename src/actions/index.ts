@@ -11,20 +11,20 @@ export interface ProfileDetails {
 }
 
 //Optional for Dispatch
-export interface s {
-  type: ActionTypes.FETCH_DATA;
-  payload: ProfileDetails;
-}
+// export interface s {
+//   type: ActionTypes.FETCH_DATA;
+//   payload: ProfileDetails;
+// }
 
-export const fetchData = () => {
-  return async (dispatch: Dispatch) => {
-    const res = await axios.get<ProfileDetails>(
-      'https://api.github.com/users/imrishav'
-    );
+// export const fetchData = () => {
+//   return async (dispatch: Dispatch) => {
+//     const res = await axios.get<ProfileDetails>(
+//       'http://localhost:3001/api/v1/video'
+//     );
 
-    dispatch<s>({
-      type: ActionTypes.FETCH_DATA,
-      payload: res.data,
-    });
-  };
-};
+//     dispatch<s>({
+//       type: ActionTypes.FETCH_DATA_START,
+//       payload: res.data,
+//     });
+//   };
+// };

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchData, ProfileDetails } from './actions';
+import { ProfileDetails } from './actions';
 import { StoreState } from './reducers';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';

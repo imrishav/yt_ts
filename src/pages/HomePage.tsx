@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { DUMMY_VIDEO } from './data';
 import GridVideo from '../styles/Grid.styles';
 import VideoBlock, { VideoTypes } from '../components/VideoBlock';
 import { Link } from 'react-router-dom';
+import {
+  fetchVideos,
+  fetchVideoStart,
+  fetchVideoSuccess,
+  fetchVideoFailure,
+} from '../actions/videoActions';
+import { StoreState } from '../reducers';
+import { connect } from 'react-redux';
 
 export const StyledHome = styled.div`
   padding: 1.3rem;
@@ -40,20 +48,49 @@ export const StyledHome = styled.div`
   }
 `;
 
-const HomePage: React.FC = () => {
-  console.log(DUMMY_VIDEO);
+interface HomePageProps {
+  isLoading: boolean;
+  allVideos: string[];
+  errorFetching: string;
+  fetchVideos?: () => void;
+}
+
+const HomePage: React.FC<HomePageProps> = ({
+  isLoading,
+  allVideos,
+  errorFetching,
+  fetchVideos,
+}) => {
+  console.log({ isLoading, allVideos, errorFetching });
+
+  useEffect(() => {
+    fetchVideos!();
+  }, []);
+
   return (
     <StyledHome>
       <h2>Recommended</h2>
-      <GridVideo>
-        {DUMMY_VIDEO.map((video: VideoTypes) => (
-          <Link key={video.id} to={`watch/${video.id}`}>
-            <VideoBlock video={video} />
-          </Link>
-        ))}
-      </GridVideo>
+      {!isLoading ? (
+        <GridVideo>
+          {allVideos.map((video: any) => (
+            <Link key={video.id} to={`watch/${video.id}`}>
+              <VideoBlock video={video} />
+            </Link>
+          ))}
+        </GridVideo>
+      ) : (
+        <p>Loading...</p>
+      )}
     </StyledHome>
   );
 };
 
-export default HomePage;
+const mapStateToprops = (state: StoreState) => {
+  return {
+    isLoading: state.fetchVideo.isLoading,
+    allVideos: state.fetchVideo.allVideos,
+    errorFetching: state.fetchVideo.errorFetching,
+  };
+};
+
+export default connect(mapStateToprops, { fetchVideos })(HomePage);

@@ -48,26 +48,21 @@ export const loginUser = (payload: LoginPayload) => {
       'Content-Type': 'application/json',
     };
 
-    try {
-      const res = await axios.post(URL, payload);
-      console.log('..hit', res);
+    let user = await authenticate('login', payload);
+    console.log(user);
+
+    if (user.status === 200) {
+      console.log('user', user.status);
       dispatch<ProfileDetailsAction>({
         type: ActionTypes.LOGIN,
-        payload: res.data.user,
+        payload: user.data.user,
       });
       history.push('/home');
-    } catch (err) {
-      if (err.response.status === 401) {
-        dispatch<ProfileDetailsAction>({
-          type: ActionTypes.AUTHENTICATION_FAILURE,
-          payload: err.response.data.message,
-        });
-      } else {
-        dispatch<ProfileDetailsAction>({
-          type: ActionTypes.AUTHENTICATION_FAILURE,
-          payload: err.response.data.message,
-        });
-      }
+    } else if (user.status != 200 && user.status > 300) {
+      dispatch<ProfileDetailsAction>({
+        type: ActionTypes.AUTHENTICATION_FAILURE,
+        payload: user.data.message,
+      });
     }
   };
 };
@@ -89,7 +84,6 @@ export const signUp = (payload: SignUpPayload) => {
         payload: user.data.user,
       });
       history.push('/home');
-      console.log('CHal gya bhai Hai bhai erri hai', user);
     }
 
     // console.log('fromactons', user);

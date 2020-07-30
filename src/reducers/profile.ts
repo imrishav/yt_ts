@@ -2,13 +2,13 @@ import { ActionTypes } from '../actions/types';
 import { ProfileDetailsAction, LoginPayload } from '../actions/authActions';
 
 export interface ProfileDet {
-  user: string | undefined;
-  error?: '' | undefined;
+  user: string;
+  error?: '';
 }
 
 const initalState: ProfileDet = {
   user: '',
-  error: undefined,
+  error: '',
 };
 
 export type LoginAction = { type: ActionTypes; payload: any };

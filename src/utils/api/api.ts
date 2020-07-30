@@ -13,7 +13,12 @@ export const authenticate = async (requestType: string, data: Object) => {
   // console.log('url', url);
 
   try {
-    const response = await Axios.post(URL, data);
+    const response = await Axios.post(
+      `http://localhost:3001/api/v1/auth/${requestType}`,
+      data
+    );
+
+    localStorage.setItem('user', JSON.stringify(response));
 
     return response;
   } catch (err) {

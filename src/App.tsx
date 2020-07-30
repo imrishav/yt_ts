@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchData, ProfileDetails } from './actions';
+import { ProfileDetails } from './actions';
 import { StoreState } from './reducers';
 
 import { ThemeProvider } from 'styled-components';
@@ -18,11 +18,14 @@ interface AppProps {
 }
 
 const App: React.FC<AppProps> = ({ profile }) => {
-  let isAuthenticated = profile ? true : false;
+  let userExist = localStorage.getItem('user');
+  let isAuthenticated = profile || userExist ? true : false;
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // console.log(localStorage.getItem('user'));
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   console.log(isAuthenticated);
 

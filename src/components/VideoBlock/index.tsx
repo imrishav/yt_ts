@@ -54,7 +54,7 @@ interface VideoBlockProps {
 }
 
 const VideoBlock: React.FC<VideoBlockProps> = ({ video }) => {
-  console.log(video);
+  console.log('dadasd', video);
   return (
     <Wrapper>
       <img className="thumb" src={video.thumbnail} alt="thumbnail" />
