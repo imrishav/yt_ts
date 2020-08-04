@@ -89,3 +89,13 @@ export const signUp = (payload: SignUpPayload) => {
     // console.log('fromactons', user);
   };
 };
+
+export const retainSession = (userData: any) => {
+  return async (dispatch: Dispatch) => {
+    console.log('userdata', userData);
+    dispatch({
+      type: ActionTypes.FETCH_USER,
+      payload: userData.data?.user,
+    });
+  };
+};

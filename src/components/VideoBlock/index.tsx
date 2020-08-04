@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -51,10 +51,12 @@ export interface VideoTypes {
 
 interface VideoBlockProps {
   video: VideoTypes;
+  // fetchVideoById?: (id: string) => void;
+  // currentVideo: [];
+  // history?: History;
 }
 
-const VideoBlock: React.FC<VideoBlockProps> = ({ video }) => {
-  console.log('dadasd', video);
+const VideoBlock = ({ video }) => {
   return (
     <Wrapper>
       <img className="thumb" src={video.thumbnail} alt="thumbnail" />
@@ -88,5 +90,19 @@ const VideoBlock: React.FC<VideoBlockProps> = ({ video }) => {
     </Wrapper>
   );
 };
+
+// const mapStateToProps = (state: StoreState) => {
+//   return {
+//     currentVideo: state.video.video,
+//   };
+// };
+
+// const mapDispatch = (dispatch: Dispatch) => {
+//   return {
+//     fetchVideoById: (id) => dispatch<any>(fetchVideoById(id)),
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatch)(VideoBlock);
 
 export default VideoBlock;

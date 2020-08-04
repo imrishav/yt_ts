@@ -33,6 +33,11 @@ export const profileReducer = (
         ...state,
         error: action.payload,
       };
+    case ActionTypes.FETCH_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }

@@ -2,11 +2,16 @@ import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
 import { connect } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, RouteComponentProps } from 'react-router-dom';
 import VideoBlock, { VideoTypes } from '../components/VideoBlock';
 import Player from '../components/Player/Player.component';
 import { DUMMY_VIDEO } from './data';
 import Comment from '../components/Comment/Comment.component';
+import { StoreState } from '../reducers/index';
+import { Dispatch } from 'redux';
+import { fetchVideoById } from '../actions/singleVideoActions';
+import { timeConversion } from '../utils/utilsFunction';
+import { FaThumbsDown, FaThumbsUp } from '../components/Icons';
 
 interface VideoViewStyleProps {
   filledLike?: any;
@@ -107,40 +112,69 @@ const Wrapper = styled.div<VideoViewStyleProps>`
   }
 `;
 
-const VideoView = () => {
+interface VideoProperties {
+  User: any;
+  title: string;
+  views: number;
+  createdAt: Date;
+  likesCount: number;
+  dislikesCount: number;
+  userId: string;
+  subscribersCount: number;
+  description: string;
+  comments: any[];
+  isLiked: Boolean;
+  isDisliked: Boolean;
+}
+
+interface VideoBlockProps {
+  // video: VideoTypes;
+  fetchVideoById?: (id: string) => void;
+  video: VideoProperties;
+  isLoading: Boolean;
+}
+
+const VideoView: React.FC<VideoBlockProps> = ({
+  fetchVideoById,
+  video,
+  isLoading,
+}) => {
+  let { id } = useParams();
+  console.log(video);
+
+  useEffect(() => {
+    fetchVideoById(id);
+  }, []);
+
   return (
     <Wrapper
-      // filledLike={video && video.isLiked}
-      // filledDislike={video && video.isDisliked}
-      filledLike={true}
-      filledDislike={true}
+      filledLike={video && video?.isLiked}
+      // filledDislike={video && video?.isDisliked}
+      filledDislike={false}
     >
       <div className="video-container">
-        {/* <div className="video">{!isFetching && <Player />}</div> */}
-        <div className="video">
-          <Player />
-        </div>
+        <div className="video">{!isLoading && <Player />}</div>
 
         <div className="video-info">
-          <h3>Video Title</h3>
+          <h3>{video.title}</h3>
 
           <div className="video-info-stats">
             <p>
-              {/* <span>{video.views} views</span> <span>•</span>{" "} */}
-              <span>Video VIews views</span> <span>•</span>{' '}
-              {/* <span>{timeSince(video.createdAt)} ago</span> */}
+              <span>{video.views} views</span> <span>•</span>{' '}
+              <span> {timeConversion(video.createdAt)} ago</span>
             </p>
 
             <div className="likes-dislikes flex-row">
               <p className="flex-row like">
                 {/* <LikeIcon onClick={handleLike} />{" "} */}
-                {/* <span>Likes Count {video.likesCount}</span> */}
-                <span>Likes Count </span>
+                <FaThumbsUp size={30} style={{ fill: 'black' }} />
+                <span>{video.likesCount}</span>
               </p>
               <p className="flex-row dislike" style={{ marginLeft: '1rem' }}>
                 {/* <DislikeIcon onClick={handleDislike} />{" "} */}
-                {/* <span>{video.dislikesCount}</span> */}
-                <span>Dislike Count </span>
+                <FaThumbsDown size={30} style={{ fill: 'black' }} />
+
+                <span>{video.dislikesCount}</span>
               </p>
             </div>
           </div>
@@ -149,22 +183,15 @@ const VideoView = () => {
         <div className="channel-info-description">
           <div className="channel-info-flex">
             <div className="channel-info flex-row">
-              <img
-                className="avatar md"
-                // src={video.User?.avatar}
-                src="abc.jpg"
-                alt="channel avatar"
-              />
+              <img className="avatar md" src={video.User?.avatar} />
               <div className="channel-info-meta">
                 <h4>
-                  {/* <Link to={`/channel/${video.userId}`}>
-                {video.User?.username}
-              </Link> */}
-                  <h4>Link to user</h4>
+                  <Link to={`/channel/${video.userId}`}>
+                    {video.User?.username}
+                  </Link>
                 </h4>
                 <span className="secondary small">
-                  {/* {video.subscribersCount} subscribers */}
-                  Subs count subscribers
+                  {video.subscribersCount} subscribers
                 </span>
               </div>
             </div>
@@ -199,8 +226,7 @@ const VideoView = () => {
         )} */}
           </div>
 
-          {/* <p>{video.description}</p> */}
-          <p>description</p>
+          <p>{video.description}</p>
         </div>
         <Comment />
       </div>
@@ -226,7 +252,6 @@ const VideoView = () => {
           </Link>
         ))}  */}
         {DUMMY_VIDEO.map((video: VideoTypes) => {
-          console.log(video);
           return (
             <Link key={video.id} to={`/watch/${video.id}`}>
               <VideoBlock video={video} />
@@ -238,4 +263,17 @@ const VideoView = () => {
   );
 };
 
-export default VideoView;
+const mapStateToProps = (state: StoreState) => {
+  return {
+    video: state.video.video,
+    isLoading: state.video.isLoading,
+  };
+};
+
+const mapDispatch = (dispatch: Dispatch) => {
+  return {
+    fetchVideoById: (id) => dispatch<any>(fetchVideoById(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatch)(VideoView);

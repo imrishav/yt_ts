@@ -12,14 +12,23 @@ import Login from './components/Auth/Login.component';
 import Auth from './components/Auth/Auth.Component';
 
 import AppRouter from './AppRouter';
+import { ActionTypes } from './actions/types';
+import { retainSession } from './actions/authActions';
 
 interface AppProps {
   profile?: {};
+  retainSession: (userData: any) => void;
 }
 
-const App: React.FC<AppProps> = ({ profile }) => {
+const App: React.FC<AppProps> = ({ profile, retainSession }) => {
   let userExist = localStorage.getItem('user');
   let isAuthenticated = profile || userExist ? true : false;
+
+  useEffect(() => {
+    if (userExist) {
+      retainSession(JSON.parse(userExist));
+    }
+  }, []);
 
   // console.log(localStorage.getItem('user'));
 
@@ -46,4 +55,4 @@ const mapStateToProps = ({ profile }: StoreState) => {
   };
 };
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, { retainSession })(App);

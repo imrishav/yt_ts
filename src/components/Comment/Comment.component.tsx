@@ -1,6 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { fetchComments, addComment } from '../../actions/singleVideoActions';
+import { StoreState } from '../../reducers';
+import useInputField from '../../utils/hooks/useInputField';
 
 const Wrapper = styled.div`
   margin: 1rem 0;
@@ -49,31 +54,64 @@ const Wrapper = styled.div`
   }
 `;
 
-const Comment: React.FC = () => {
+interface UserDetails {
+  avatar: string;
+  id: string;
+}
+
+interface CommentsProps {
+  comments?: string[];
+  fetchComments: (id: string) => void;
+  addComment: (videoId: string, commentValue: any) => void;
+  user?: any;
+}
+
+const Comment: React.FC<CommentsProps> = ({
+  comments,
+  user,
+  fetchComments,
+  addComment,
+}) => {
+  console.log({ comments, user });
+  const comment = useInputField('');
+
+  const { id } = useParams();
+
+  const handleAddComment = (e) => {
+    if (e.keyCode === 13) {
+      if (!comment.value.trim()) {
+        console.log('fil cimment');
+      }
+
+      addComment(id, comment.value);
+      comment.setValue('');
+    }
+  };
+
+  console.log(user.avatar);
+
+  useEffect(() => {
+    console.log('hit');
+    fetchComments(id);
+  }, []);
+
   return (
     <Wrapper>
-      {/* <h3>{comments?.length} comments</h3> */}
-      <h3>Comment Length comments</h3>
+      <h3>{comments?.length} comments</h3>
+      {/* <h3>Comment Length comments</h3> */}
 
       <div className="add-comment">
-        {/* <img src={user.avatar} alt="avatar" /> */}
-        <img src={'abc.jpg'} alt="avatar" />
-        {/* <textarea
+        <img src={user.avatar} alt="avatar" />
+        <textarea
           placeholder="Add a public comment"
           value={comment.value}
           onKeyDown={handleAddComment}
           onChange={comment.onChange}
-        /> */}
-        <textarea
-          placeholder="Add a public comment"
-          value={'COmment Value'}
-          // onKeyDown={handleAddComment}
-          // onChange={comment.onChange}
         />
       </div>
 
-      {/* {comments &&
-        comments.map((comment) => (
+      {comments &&
+        comments.map((comment: any) => (
           <div key={comment.id} className="comment">
             <Link to={`/channel/${comment.User?.id}`}>
               <img src={comment.User?.avatar} alt="avatar" />
@@ -86,28 +124,28 @@ const Comment: React.FC = () => {
                   </Link>
                 </span>
                 <span style={{ marginLeft: '0.6rem' }}>
-                  {timeSince(comment.createdAt)} ago
+                  {/* {timeSince(comment.createdAt)} ago */}
                 </span>
               </p>
               <p>{comment.text}</p>
             </div>
           </div>
-        ))} */}
+        ))}
       <div key={1} className="comment">
-        {/* <Link to={`/channel/${comment.User?.id}`}>
-              <img src={comment.User?.avatar} alt="avatar" />
-            </Link> */}
+        <Link to={`/channel/${user?.id}`}>
+          <img src={user?.avatar} alt="avatar" />
+        </Link>
         <div className="comment-info">
           <p className="secondary">
             <span>
               {/* <Link to={`/channel/${comment.User?.id}`}>
-                    {comment.User?.username}
-                  </Link> */}
+                {comment.User?.username}
+              </Link> */}
               <Link to={`/channel/1`}>Username Profile Link</Link>
             </span>
             {/* <span style={{ marginLeft: "0.6rem" }}>
-                  {timeSince(comment.createdAt)} ago
-                </span> */}
+              {timeSince(comment.createdAt)} ago
+            </span> */}
           </p>
           {/* <p>{comment.text}</p> */}
           <p>comment.text</p>
@@ -117,4 +155,11 @@ const Comment: React.FC = () => {
   );
 };
 
-export default Comment;
+const mapStateToProps = (state: StoreState) => {
+  return {
+    comments: state.video.comments,
+    user: state.profile.user,
+  };
+};
+
+export default connect(mapStateToProps, { fetchComments, addComment })(Comment);

@@ -1,15 +1,17 @@
 import { ActionTypes } from '../actions/types';
 import { Action } from 'redux';
 
-export interface FetchVideo {
+export interface FetchSingleVideo {
   isLoading: Boolean;
-  allVideos: String[];
+  video: Object;
+  comments: string[];
   errorFetching: String;
 }
 
-const intialState: FetchVideo = {
-  isLoading: false,
-  allVideos: [],
+const intialState: FetchSingleVideo = {
+  isLoading: true,
+  video: {},
+  comments: [],
   errorFetching: '',
 };
 
@@ -18,26 +20,34 @@ type FetchVideoAction = {
   payload: any;
 };
 
-export const videoReducer = (state = intialState, action: FetchVideoAction) => {
+export const singleVideoReducer = (
+  state = intialState,
+  action: FetchVideoAction
+) => {
   switch (action.type) {
-    case ActionTypes.FETCH_DATA_START:
+    case ActionTypes.FETCH_VIDEO_START:
       return {
         ...state,
         isLoading: true,
         errorFetching: '',
       };
-    case ActionTypes.FETCH_DATA_SUCCESS:
+    case ActionTypes.FETCH_VIDEO_SUCESSS:
       return {
         ...state,
-        allVideos: action.payload,
+        video: action.payload,
         isLoading: false,
         errorFetching: '',
       };
-    case ActionTypes.FETCH_DATA_FAILURE:
+    case ActionTypes.FETCH_VIDEO_FAILURE:
       return {
         ...state,
         isLoading: false,
         errorFetching: action.payload,
+      };
+    case ActionTypes.FETCH_COMMENTS:
+      return {
+        ...state,
+        comments: action.payload,
       };
 
     default:

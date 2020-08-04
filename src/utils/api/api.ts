@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import Axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 
 interface AuthenticateType {
   requestType: string;
@@ -25,3 +25,21 @@ export const authenticate = async (requestType: string, data: Object) => {
     return err.response;
   }
 };
+
+// export const checkAuthentication = () => {
+//   let token: string;
+
+//   const user = JSON.parse(localStorage.getItem('user')).data.user;
+
+//   if (user) {
+//     token = user.token;
+//   }
+
+//   const authen = Axios.create<AxiosRequestConfig>({
+//     baseURL: 'http://localhost:3001/api/v1/auth/',
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+
+// };

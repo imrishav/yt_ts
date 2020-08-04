@@ -73,7 +73,13 @@ const HomePage: React.FC<HomePageProps> = ({
       {!isLoading ? (
         <GridVideo>
           {allVideos.map((video: any) => (
-            <Link key={video.id} to={`watch/${video.id}`}>
+            <Link
+              key={video.id}
+              to={{
+                pathname: `watch/${video.id}`,
+                state: { id: video.id },
+              }}
+            >
               <VideoBlock video={video} />
             </Link>
           ))}
